@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>rage</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #714955;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+    
+    #game-container {
+      position: relative;
+      width: 100vw;
+      height: calc(100vh - 30px);
+    }
+    
+    #circle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      background-color: #7B886B;
+      cursor: pointer;
+    }
+    
+    #counter {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 20px;
+    }
+    
+    h1 {
+      position: relative;
+      font-size: 40px;
+      animation: creepyAnimation 3s infinite;
+    }
+    
+    @keyframes creepyAnimation {
+      0% {
+        color: #fff;
+        opacity: 1;
+      }
+      50% {
+        color: #ff00ff;
+        opacity: 0.5;
+      }
+      100% {
+        color: #00ffff;
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Click the Circle</h1>
+  
+  <div id="game-container">
+    <div id="circle"></div>
+  </div>
+  
+  <div id="counter">clicks(ur not smart for doing it on touchscreen bozo): 0</div>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const circle = document.getElementById("circle");
+      const gameContainer = document.getElementById("game-container");
+      const counter = document.getElementById("counter");
+      let clickCount = 0;
+      
+      function getRandomPosition() {
+        const containerWidth = gameContainer.clientWidth;
+        const containerHeight = gameContainer.clientHeight;
+        const circleSize = circle.clientWidth;
+        
+        const maxX = containerWidth - circleSize;
+        const maxY = containerHeight - circleSize;
+        
+        const randomX = Math.floor(Math.random() * maxX);
+        const randomY = Math.floor(Math.random() * maxY);
+        
+        return { x: randomX, y: randomY };
+      }
+      
+      function moveCircle() {
+        const newPosition = getRandomPosition();
+        circle.style.left = newPosition.x + "px";
+        circle.style.top = newPosition.y + "px";
+      }
+      
+      circle.addEventListener("mouseenter", moveCircle);
+      
+      gameContainer.addEventListener("click", function(event) {
+        if (event.target === circle) {
+          clickCount++;
+          counter.textContent = "Clicks: " + clickCount;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
